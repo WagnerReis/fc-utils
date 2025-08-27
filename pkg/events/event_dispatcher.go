@@ -50,3 +50,11 @@ func (ed *EventDispatcher) Dispatch(event EventInterface) error {
 	}
 	return nil
 }
+
+func (ed *EventDispatcher) Remove(eventName string, handler EventHandlerInterface) error {
+	if handlers, ok := ed.handlers[eventName]; ok {
+		index := slices.Index(handlers, handler)
+		ed.handlers[eventName] = append(handlers[:index], handlers[index+1:]...)
+	}
+	return nil
+}
